@@ -28,13 +28,13 @@
             android:layout_marginLeft="15dp"
             />
     </LinearLayout>
-    <TextView 
+
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="大家一起来做侧边栏菜单吧XXXXX"
-        android:textSize="25sp"
+        android:background="#666666"
         android:gravity="center"
-        android:background="#666666"/>
-    
+        android:text="大家一起来做侧边栏菜单吧XXXXX"
+        android:textSize="25sp" />
 
 </LinearLayout>
