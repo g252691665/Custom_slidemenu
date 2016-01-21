@@ -11,8 +11,7 @@ public class SlideMenu extends ViewGroup {
 	private View menu_view; // 菜单
 	private View main_view; // 主页面
 
-	private int screenHeight; //
-	private int screenWidth;
+	private int menuWidth; // 菜单的宽度
 	private int downX;
 
 	/**
@@ -43,7 +42,8 @@ public class SlideMenu extends ViewGroup {
 		/**
 		 * l:当前子view的左边在父view中的x坐标 t:当前子view的顶边在父view中的y坐标
 		 */
-		menu_view.layout(-menu_view.getLayoutParams().width, 0, 0, b);
+		menuWidth = menu_view.getLayoutParams().width;
+		menu_view.layout(-menuWidth, 0, 0, b);
 		main_view.layout(0, 0, r, b);
 	}
 
@@ -55,7 +55,7 @@ public class SlideMenu extends ViewGroup {
 		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 		// 测量所有子view的宽高
 		// 通过getLayoutParams()方法能获得布局文件中指定控件的宽高
-		menu_view.measure(menu_view.getLayoutParams().width,
+		menu_view.measure(menuWidth,
 				menu_view.getLayoutParams().height);
 		main_view.measure(widthMeasureSpec,
 				heightMeasureSpec);
@@ -80,23 +80,29 @@ public class SlideMenu extends ViewGroup {
 		case MotionEvent.ACTION_MOVE:
 			//getScrollX:相当于屏幕的左上角的坐标的偏移量
 			int moveX = (int) event.getX();
-			int deltaX = (int) (moveX + downX);
+			int deltaX = (int) (moveX - downX);
 			System.out.println("getScroolX:"+getScrollX());
-			int newScrollX = getScrollX() + deltaX;
+			int newScrollX = getScrollX() - deltaX;
 			System.out.println("newScrool:"+newScrollX);
 			//防止主页面向左滑
 			if (newScrollX > 0) {
 				newScrollX = 0;
 			}
 			//防止menu菜单显示的部分多余menu菜单的宽度
-			if (newScrollX < -menu_view.getWidth()) {
-				newScrollX = -menu_view.getWidth();
+			if (newScrollX < -menuWidth) {
+				newScrollX = -menuWidth;
 			}
 			scrollTo(newScrollX, 0);
 			downX = moveX;
 			break;
 		case MotionEvent.ACTION_UP:
-
+			if (getScrollX() > -menuWidth/2) {
+				//关闭菜单
+				scrollTo(0, 0);
+			}else{
+				//打开菜单
+				scrollTo(-menuWidth, 0);
+			}
 			break;
 		default:
 			break;

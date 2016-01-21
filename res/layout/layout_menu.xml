@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- scrollview必须有一个子view，并且只能有一个view -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="240dp"
+    android:layout_width="200dp"
     android:layout_height="match_parent"
     android:background="@drawable/menu_bg"
     android:orientation="vertical" >
