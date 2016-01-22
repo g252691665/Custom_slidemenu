@@ -5,6 +5,8 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.Transformation;
 
 public class SlideMenu extends ViewGroup {
 
@@ -83,7 +85,7 @@ public class SlideMenu extends ViewGroup {
 			int deltaX = (int) (moveX - downX);
 			System.out.println("getScroolX:"+getScrollX());
 			int newScrollX = getScrollX() - deltaX;
-			System.out.println("newScrool:"+newScrollX);
+			
 			//防止主页面向左滑
 			if (newScrollX > 0) {
 				newScrollX = 0;
@@ -96,18 +98,25 @@ public class SlideMenu extends ViewGroup {
 			downX = moveX;
 			break;
 		case MotionEvent.ACTION_UP:
+			//让view在一段时间内移动到某个位置
+			//第一种方法：使用自定义动画
+			ScrollAnimation scrollAnimation ;
 			if (getScrollX() > -menuWidth/2) {
 				//关闭菜单
-				scrollTo(0, 0);
+				scrollAnimation = new ScrollAnimation(this, 0);
 			}else{
 				//打开菜单
-				scrollTo(-menuWidth, 0);
+				scrollAnimation = new ScrollAnimation(this, -menuWidth);
 			}
+			startAnimation(scrollAnimation);
+			//第二种方法：使用scroller
 			break;
 		default:
 			break;
 		}
 		return true;
 	}
+	
+
 
 }
