@@ -117,6 +117,45 @@ public class SlideMenu extends ViewGroup {
 		return true;
 	}
 	
+	@Override
+	public boolean onInterceptTouchEvent(MotionEvent ev) {
+		
+		switch (ev.getAction()) {
+		case MotionEvent.ACTION_DOWN:
+			downX = (int) ev.getX();
+			break;
+
+		case MotionEvent.ACTION_MOVE:
+			int moveX = (int) ev.getX();
+			int deltaX = (int) (moveX - downX);
+			if (Math.abs(deltaX) > 8) {
+				return true;
+			}
+			break;
+		default:
+			break;
+		}
+		return super.onInterceptTouchEvent(ev);
+	}
+	
+	/**
+	 * 切换菜单
+	 */
+	public void switchMenu() {
+		ScrollAnimation scrollAnimation ;
+		System.out.println("=====>getScrollX:"+getScrollX());
+		if (getScrollX() == 0) {
+			//打开菜单
+			System.out.println("====>open menu");
+			scrollAnimation = new ScrollAnimation(this, -menuWidth);
+		}else {
+			//关闭菜单
+			System.out.println("====>close menu");
+			scrollAnimation = new ScrollAnimation(this, 0);
+		}
+		startAnimation(scrollAnimation);
+	}
+	
 
 
 }
